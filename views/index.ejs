@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header')  %>
+
+    <h2>Your Notes</h2>
+    <a  class="btn" href="/create">Create New Notes</a>
+    <% if (notes.length === 0) { %>
+        <p>No notes found. Start by creating a new note!</p>
+        <% } else { %>
+            <ul>
+        <% notes.forEach(note => { %>
+            <li>
+                <strong><%= note.title  %>
+                    <br>
+                </strong>
+                <%= note.content  %>
+                <br>
+                <a href="/edit/<%= note._id %>">Edit</a> |
+                <form action="/delete/<%= note._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+            </ul>
+    <% } %>
+
+    <%- include('partials/footer')  %>
+</body>
+</html>

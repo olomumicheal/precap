@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+</head>
+<body>
+
+    <header>
+        <h1>Personal Notes App</h1>
+        <nav>
+            <a href="/">Home</a> |
+            <% if (userId) { %>
+                <a href="/users/signup">SignUp</a> |
+                <a href="/users/login">Login</a> |
+                <%} else { %>
+                <a href="/users/logout">Logout</a> 
+            <% } %>
+        </nav>
+        <hr>
+    </header>
+    
+</body>
+</html>

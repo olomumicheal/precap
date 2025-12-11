@@ -1,0 +1,28 @@
+PROJECT RECAP
+Teaching Notes: Personal Notes App with Auth
+*Project Recap Starting Today*
+
+*Goal:*
+Build a web application where users can sign up, log in, and manage their personal notes. Each user can only see and manage their own notes.
+
+Key Concepts Students Learn:
+1. Node.js & Express fundamentals
+2. EJS templating for dynamic pages
+3. CRUD operations (Create, Read, Update, Delete)
+4. MongoDB for persistent storage
+5. Authentication & Authorization using express-session
+6. Password hashing with bcrypt
+7. Basic CSS styling for clean UI
+
+
+Step 1
+Setting up the folder structure and initializing the project with npm.
+
+Step 2
+Installing necessary packages: express, ejs, mongoose, express-session (stores user sessions for authentication), bcrypt, body-parser, connect-mongo (store session data in Mongodb for persistence) dotenv method-override, nodemon.
+
+Step 3
+We define the .env file to store environment variables like PORT, MONGODB_URI, and SESSION_SECRET.
+
+Step 4
+Database connection using Mongoose to connect to MongoDB in db.js file inside config folder.
