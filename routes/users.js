@@ -10,26 +10,27 @@ router.get('/signup', (req, res) => {
 
 // POST Signup
 router.post('/signup', async (req, res) => {
-    const { name, email, password } = req.body;
-
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const { name, email, password } = req.body;
 
-        const user = new User({
-            name,
-            email,
-            password: hashedPassword
-        });
+        // Check if user already exists
+        const userExists = await User.findOne({ email });
+        if (userExists) {
+            return res.render('signup', { error: 'Email already registered' });
+        }
 
-        await user.save();
-        req.session.userId = user._id;
+        // Create new user
+        const user = new User({ name, email, password });
+        await user.save(); // password is hashed automatically
 
-        res.redirect('/');
+        // Redirect to login page after signup
+        res.redirect('/users/login');
+
     } catch (err) {
-        res.send("Error: " + err.message);
+        console.error(err);
+        res.render('signup', { error: 'Something went wrong. Try again.' });
     }
 });
-
 
 // GET Login page
 router.get('/login', (req, res) => {
@@ -38,23 +39,33 @@ router.get('/login', (req, res) => {
 
 // POST Login
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) return res.send("User not found");
+        const user = await User.findOne({ email });
+        if (!user) return res.render('login', { error: 'User not found' });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.send("Invalid credentials");
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.render('login', { error: 'Invalid credentials' });
 
-    req.session.userId = user._id;
-    res.redirect('/');
+        // Save user session
+        req.session.userId = user._id;
+
+        // Redirect to dashboard/home
+        res.redirect('/');
+
+    } catch (err) {
+        console.error(err);
+        res.render('login', { error: 'Something went wrong. Try again.' });
+    }
 });
 
-
-// LOGOUT
+// Logout
 router.get('/logout', (req, res) => {
-    req.session.destroy(() => {
-        res.redirect('/login');
+    req.session.destroy(err => {
+        if (err) console.error(err);
+        res.clearCookie('connect.sid');
+        res.redirect('/users/login');
     });
 });
 

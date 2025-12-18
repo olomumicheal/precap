@@ -22,25 +22,22 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // make sure this is configured when ready
+    // Enable when ready
     // store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
 
-// Make session available in templates
+// Make session available in EJS templates
 app.use((req, res, next) => {
     res.locals.userId = req.session.userId;
     next();
 });
 
-// EJS
+// View engine
 app.set('view engine', 'ejs');
 
-// ROUTES — make sure users.js exports a router
-app.get('/', (req, res) => {
-    res.render('index');
-});
+// ROUTES
 app.use('/users', require('./routes/users'));
-// app.use('/', require('./routes/notes'));
+app.use('/', require('./routes/notes')); // handles "/" and passes notes
 
 // Start server
 const PORT = process.env.PORT || 3000;

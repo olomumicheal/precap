@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Note</title>
+    <title>Edit Note</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -11,25 +11,24 @@
     <%- include('partials/header') %>
 
     <div class="center-box">
-        <h2>Create New Note</h2>
+        <h2>Edit Note</h2>
 
-        <form action="/create" method="POST">
+        <form action="/edit/<%= note._id %>?_method=PUT" method="POST">
             <input 
                 type="text" 
                 name="title" 
-                placeholder="Note Title" 
+                value="<%= note.title %>" 
                 required
             >
 
             <textarea 
                 name="content" 
                 rows="6" 
-                placeholder="Write your note here..." 
                 required
-            ></textarea>
+            ><%= note.content %></textarea>
 
             <button type="submit" class="btn">
-                Save Note
+                Update Note
             </button>
         </form>
     </div>
